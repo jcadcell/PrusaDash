@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+/*************************************/
+* {
+  box-sizing: border-box;
+}
+
+#devices {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 10rem;  
+  height: 100vh;
+  margin: 0;
+  padding: 1rem;
+  overflow: scroll;
+}
+
+iframe {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;  
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+/*************************************/
+    </style>
+</head>
+<body>
+    <div id="devices"></div>
+    <iframe name="deviceFrame"></iframe>
+    
+    <script>
+/*************************************/
+
+let data = {};
+
+// TODO call update() on an interval
+// Updates list of printers from backend 
+function updateDevice(d) {
+    //console.log('update: '  + d.id)
+    let status = document.querySelector(`#device_${d.id} > .status`)
+    if(status) {
+        //update
+        //console.log('update status: '+d.id)
+        status.innerText = d.status
+    } else {    
+        //new    
+        //console.log('new device: '+d.id)
+        device = document.createElement('div')
+        device.id = 'device_'+d.id
+        device.className = 'device'
+        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame">${d.name}</a>`
+        document.getElementById("devices").append(device)
+    }
+}
+
+async function refresh() {
+    // Do call to server and update each device
+    const res = await fetch('http://127.0.0.1:3000/', {
+            headers: { Accept: 'application/json' },
+        });
+    const json = await res.json();
+    json.forEach((j) => updateDevice(j))  
+
+    // Setup the next refresh
+    setTimeout(refresh, 5000);
+}
+
+// Initial call
+refresh()
+
+// /* See https://github.com/inorganik/digest-auth-request */
+// var url = 'http://example.com/protected-resource';
+// // create digest request object
+// var getRequest = new digestAuthRequest('GET', url, 'username', 'password');  
+// // make the request
+// getRequest.request(function(data) { 
+// // success callback
+// // do something with the data
+// },function(errorCode) { 
+// // error callback
+// // tell user request failed
+// });    
+/*************************************/
+    </script>
+</body>
+</html>
