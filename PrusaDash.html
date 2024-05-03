@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- PROBLEM AROUND LINE 98 WITH THE INFO VARIABLE-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +11,29 @@
   box-sizing: border-box;
 }
 
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    
+}
+
 #devices {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   width: 10rem;  
-  height: 100vh;
+  height: 60vh;
+  margin: 0;
+  padding: 1rem;
+  overflow: scroll;
+}
+
+#deviceInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 10rem;  
+  height: 40vh;
   margin: 0;
   padding: 1rem;
   overflow: scroll;
@@ -48,7 +66,10 @@ body {
     </style>
 </head>
 <body>
-    <div id="devices"></div>
+    <div id="sidebar">
+        <div id="devices"></div>
+        <div id="deviceInfo">Blah blah blah</div>
+    </div>
     <iframe name="deviceFrame"></iframe>
     
     <script>
@@ -71,8 +92,14 @@ function updateDevice(d) {
         device = document.createElement('div')
         device.id = 'device_'+d.id
         device.className = 'device'
-        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame">${d.name}</a>`
+        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame" id="device${d.id}">${d.name}</a>`;
+        console.log("device" + d.id)
+        
+        let info = document.getElementById("device" + d.id) // this is null
         document.getElementById("devices").append(device)
+        info.onclick = function (){
+            document.getElementById("deviceInfo").innerText = "Password: " + device.pass
+        }
     }
 }
 
