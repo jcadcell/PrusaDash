@@ -28,7 +28,7 @@ let data = [
         url:"http://192.168.1.239/",
         name:"MINI 1",
         user:"maker",
-        pass:"",
+        pass:"sThnyZAE2n6YAtm",
         status:"?",
         lastContact: time
     },
