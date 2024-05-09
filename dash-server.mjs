@@ -15,7 +15,7 @@ import { readFile } from 'fs/promises';
 var time=0;
 
 // Load initial data
-let data = JSON.parse(await readFile("devices.json", "utf8"));
+let data = JSON.parse(await readFile("devices-example.json", "utf8"));
 // let data = [
     // {
     //     id:200,
