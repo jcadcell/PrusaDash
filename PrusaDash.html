@@ -10,21 +10,14 @@
   box-sizing: border-box;
 }
 
-#sidebar {
-    display: flex;
-    flex-direction: column;
-    
-}
-
 #devices {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  width: 10rem;  
+  width: 12rem;  
   height: 60vh;
   margin: 0;
-  padding: 1rem;
-  overflow: scroll;
+  padding: 1rem 1rem 1rem 0.5rem;
+  overflow-x: visible;
 }
 
 #deviceInfo {
@@ -53,7 +46,7 @@ body {
   font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   height: 100vh;
   width: 100%;
@@ -61,16 +54,16 @@ body {
   margin: 0;
   padding: 0;
 }
+
+dd {
+    margin-left: 20px;
+}
 /*************************************/
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <div id="devices"></div>
-        <div id="deviceInfo">Blah blah blah</div>
-    </div>
+    <div id="devices"></div>
     <iframe name="deviceFrame"></iframe>
-    
     <script>
 /*************************************/
 
@@ -91,11 +84,12 @@ function updateDevice(d) {
         device = document.createElement('div')
         device.id = 'device_'+d.id
         device.className = 'device'
-        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame" onclick="()=>displayDeviceInfo('${d.id}')">${d.name}</a>`
+        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame" onclick="displayDeviceInfo(${d.id})">${d.name}</a>`
 
         // Create a hidden info box
         info = document.createElement('div')
         info.id = 'deviceInfo_'+d.id
+        console.log(info.id)
         info.className = 'deviceInfo'
         info.innerHTML = `<dl><dt>username:</dt><dd>${d.user}</dd><dt>password:</dt><dd>${d.pass}</dd></dl>`
         info.style.display = "none"
@@ -113,7 +107,8 @@ function displayDeviceInfo(id) {
     }
 
     // Show the requested box
-    let info = document.getElementById(`#deviceInfo_${d.id}`).style.display = "block"
+    console.log("showing", `deviceInfo_${id}`)
+    let info = document.getElementById(`deviceInfo_${id}`).style.display = "block"
 }
 
 async function refresh() {

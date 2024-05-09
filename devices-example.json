@@ -4,16 +4,16 @@
           "url":"http://192.168.1.239/",
           "name":"MINI 1",
           "user":"maker",
-          "pass":"",
+          "pass":"sThnyZAE2n6YAtm",
           "status":"?",
           "lastContact": null
       },
       {
           "id":2,        
-          "url":"http://192.168.1.40/",
+          "url":"http://192.168.1.170/",
           "name":"MINI 2",
           "user":"maker",
-          "pass":"",
+          "pass":"mnZftmcSAYZSKwp",
           "status":"?",
           "lastContact": null
       }
