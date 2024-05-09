@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- PROBLEM AROUND LINE 98 WITH THE INFO VARIABLE-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,28 +82,43 @@ function updateDevice(d) {
     //console.log('update: '  + d.id)
     let status = document.querySelector(`#device_${d.id} > .status`)
     if(status) {
-        //update
+        // Update an existing device status
         //console.log('update status: '+d.id)
         status.innerText = d.status
     } else {    
-        //new    
-        //console.log('new device: '+d.id)
+        // Create a new device listing    
+        console.log('new device: '+d.id)
         device = document.createElement('div')
         device.id = 'device_'+d.id
         device.className = 'device'
-        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame" id="device${d.id}">${d.name}</a>`;
-        console.log("device" + d.id)
-        
-        let info = document.getElementById("device" + d.id) // this is null
+        device.innerHTML = `<span class="status">?</span><a href="${d.url}" target="deviceFrame" onclick="()=>displayDeviceInfo('${d.id}')">${d.name}</a>`
+
+        // Create a hidden info box
+        info = document.createElement('div')
+        info.id = 'deviceInfo_'+d.id
+        info.className = 'deviceInfo'
+        info.innerHTML = `<dl><dt>username:</dt><dd>${d.user}</dd><dt>password:</dt><dd>${d.pass}</dd></dl>`
+        info.style.display = "none"
+        device.append(info)
+
         document.getElementById("devices").append(device)
-        info.onclick = function (){
-            document.getElementById("deviceInfo").innerText = "Password: " + device.pass
-        }
     }
+}
+
+function displayDeviceInfo(id) {
+    // Hide all info boxes
+    let infos = document.querySelectorAll(`.deviceInfo`)
+    for (let i = 0; i < infos.length; i++) {
+        infos[i].style.display = "none"
+    }
+
+    // Show the requested box
+    let info = document.getElementById(`#deviceInfo_${d.id}`).style.display = "block"
 }
 
 async function refresh() {
     // Do call to server and update each device
+    // Set port to where dash-server.mjs is running
     const res = await fetch('http://127.0.0.1:3000/', {
             headers: { Accept: 'application/json' },
         });

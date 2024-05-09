@@ -1,5 +1,6 @@
 // dash-server.mjs
 import { createServer } from 'node:http';
+import { readFile } from 'fs/promises';
 
 // https://www.npmjs.com/package/digest-fetch
 //import DigestClient from "digest-fetch"
@@ -13,7 +14,9 @@ import { createServer } from 'node:http';
 
 var time=0;
 
-let data = [
+// Load initial data
+let data = JSON.parse(await readFile("devices.json", "utf8"));
+// let data = [
     // {
     //     id:200,
     //     url:"http://192.168.1.40/",
@@ -23,34 +26,34 @@ let data = [
     //     status:"?",
     //     lastContact: time
     // },
-    {
-        id:1,        
-        url:"http://192.168.1.239/",
-        name:"MINI 1",
-        user:"maker",
-        pass:"sThnyZAE2n6YAtm",
-        status:"?",
-        lastContact: time
-    },
-    {
-        id:2,        
-        url:"http://192.168.1.170/",
-        name:"MINI 2",
-        user:"maker",
-        pass:"",
-        status:"?",
-        lastContact: time
-    },
-    {
-        id:31,        
-        url:"http://192.168.1.122/",
-        name:"MINI 31",
-        user:"maker",
-        pass:"",
-        status:"?",
-        lastContact: time
-    },
-]
+//     {
+//         id:1,        
+//         url:"http://192.168.1.239/",
+//         name:"MINI 1",
+//         user:"maker",
+//         pass:"",
+//         status:"?",
+//         lastContact: time
+//     },
+//     {
+//         id:2,        
+//         url:"http://192.168.1.170/",
+//         name:"MINI 2",
+//         user:"maker",
+//         pass:"",
+//         status:"?",
+//         lastContact: time
+//     },
+//     {
+//         id:31,        
+//         url:"http://192.168.1.122/",
+//         name:"MINI 31",
+//         user:"maker",
+//         pass:"",
+//         status:"?",
+//         lastContact: time
+//     },
+// ]
 
 // Checks the URL and updates the status with the result
 async function updateData(device) {
@@ -134,11 +137,13 @@ const server = createServer((req, res) => {
   res.writeHead(200, { 
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://127.0.0.1:5500'
- });
+});
+  // Set to port where PrusaDash.html is served 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500'
   res.end(JSON.stringify(data));
 });
 
-// starts a simple http server locally on port 3000
+// starts a simple http server locally
+// This determines the port where dash-server.mjs is running
 server.listen(3000, '127.0.0.1', () => {
   console.log('Listening on 127.0.0.1:3000');
 });

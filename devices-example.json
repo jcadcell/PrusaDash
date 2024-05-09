@@ -1,0 +1,20 @@
+[
+    {
+          "id":1,        
+          "url":"http://192.168.1.239/",
+          "name":"MINI 1",
+          "user":"maker",
+          "pass":"",
+          "status":"?",
+          "lastContact": null
+      },
+      {
+          "id":2,        
+          "url":"http://192.168.1.40/",
+          "name":"MINI 2",
+          "user":"maker",
+          "pass":"",
+          "status":"?",
+          "lastContact": null
+      }
+  ]
